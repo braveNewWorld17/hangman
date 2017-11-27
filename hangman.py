@@ -118,14 +118,44 @@ def checkWrongAnswer(missedLetters, secretWord):
     if len(missedLetters) == len(HANGMANPICS) - 1:
         return True
     return False
-            
+
+def readWordList():
+    file = open('./text.txt', 'r')
+    str = file.read()
+    file.close()
+    wordList = str.split()
+    return wordList
+
+def readScoreFile():
+    file = open('./score.txt', 'r')
+    topScore = file.read()
+    file.close()
+    return int(topScore)
+
+def doScoreProcess(gameScore, topScore):
+    if gameScore > topScore:
+       print ("Congratulations!!! You got the highest score.")
+       print ("Your score is ", gameScore, ".") 
+       topScore = gameScore
+       strScore = str(gameScore)
+       file = open('./score.txt', 'w')
+       file.write(strScore)
+       file.close()
+    else :
+       print ("Your score is ", gameScore, ".") 
+
+    return topScore
+	
 def main():
     """Main application entry point."""
-    print('H A N G M A N by ...')
+    print('H A N G M A N by soyoung677')
     missedLetters = ''
     correctLetters = ''
     gameSucceeded = False
     gameFailed = False
+    gameScore = 0
+    topScore = readScoreFile()
+    words = readWordList()
     secretWord = getRandomWord(words)
 
     while True:
@@ -134,6 +164,7 @@ def main():
         if gameSucceeded or gameFailed:
             if gameSucceeded:
                 print('Yes! The secret word is "' + secretWord + '"! You have won!')
+                topScore = doScoreProcess(gameScore, topScore)
             else:
                 print('You have run out of guesses!\nAfter ' + str(len(missedLetters)) + ' missed guesses and ' + str(len(correctLetters)) + ' correct guesses, the word was "' + secretWord + '"')
 
@@ -143,6 +174,7 @@ def main():
                 correctLetters = ''
                 gameSucceeded = False
                 gameFailed = False
+                gameScore = 0
                 secretWord = getRandomWord(words)
                 continue 
             else: 
@@ -153,40 +185,14 @@ def main():
         if guess in secretWord:
             correctLetters = correctLetters + guess
             gameSucceeded = checkCorrectAnswer(correctLetters, secretWord)
+            gameScore += 3
         else:
             missedLetters = missedLetters + guess
             gameFailed = checkWrongAnswer(missedLetters, secretWord)
-
+            gameScore -= 1
 
 if __name__ == "__main__":
     main()
 
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
+
 
