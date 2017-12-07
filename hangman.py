@@ -83,7 +83,7 @@ def displayBoard(HANGMANPICS, missedLetters, correctLetters, secretWord):
     for letter in blanks: # show the secret word with spaces in between each letter
         print(letter, end=' ')
     print()
-
+    
 def getGuess(alreadyGuessed):
     # Returns the letter the player entered. This function makes sure the player entered a single letter, and not something else.
     while True:
@@ -119,15 +119,15 @@ def checkWrongAnswer(missedLetters, secretWord):
         return True
     return False
 
-def readWordList():
-    file = open('./text.txt', 'r')
+def readWordList(filename):
+    file = open(filename, 'r')
     str = file.read()
     file.close()
     wordList = str.split()
     return wordList
 
-def readScoreFile():
-    file = open('./score.txt', 'r')
+def readScoreFile(filename):
+    file = open(filename, 'r')
     topScore = file.read()
     file.close()
     return int(topScore)
@@ -154,8 +154,8 @@ def main():
     gameSucceeded = False
     gameFailed = False
     gameScore = 0
-    topScore = readScoreFile()
-    words = readWordList()
+    topScore = readScoreFile('./score.txt')
+    words = readWordList('./text.txt')
     secretWord = getRandomWord(words)
 
     while True:
@@ -181,6 +181,8 @@ def main():
                 break
 
         # Let the player type in a letter.
+        print("missedLetters = ", missedLetters)
+        print("correctLetters = ", correctLetters)
         guess = getGuess(missedLetters + correctLetters)
         if guess in secretWord:
             correctLetters = correctLetters + guess
