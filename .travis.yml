@@ -3,12 +3,11 @@ python:
  - "3.2"
  - "3.3"
  - "3.4"
+ - "3.6"
 
-install: 
-  - pip install coverage
-  - pip install python-coveralls
+#install: 
+#  - pip install coverage
+#  - pip install python-coveralls
 
 script: python3 ./test.py 
 
-after_success: 
-- coveralls
